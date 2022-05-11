@@ -1,0 +1,160 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(27, 76, 104);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+h1, p, h2 {
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewChange {
+    background-color: rgb(27, 76, 104);
+    display: flex;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.chg {
+    border: 2px solid black;
+    width: 200px;
+    height: 50px;
+    background-color: rgb(44, 16, 44);
+    color: white;
+}
+
+.chg:active {
+    transform: scale(0.95);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.cv {
+    display: grid;
+    grid: 1fr 1fr/1fr 2fr;
+    width: 90vh;
+    min-height: 70vw
+}
+
+.personal {
+    grid-row: 1;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+    padding: 24px;
+    border-right: 4px solid blue;
+    background-color: rgb(147, 210, 229);
+}
+
+.skills {
+    grid-row: 2;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(147, 210, 229);
+    padding: 24px;
+    border-right: 4px solid blue;
+}
+
+.talent {
+    display: flex;
+    gap: 12px;
+}
+
+.delSkill {
+    border: none;
+    background: none;
+}
+
+.workExp, .eduExp {
+    padding: 24px;
+}
+
+h1 {
+    border-bottom: 4px solid black;
+    margin-bottom: 12px;
+}
+
+.newExp, .newEdu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0 12px 0;
+}
+
+.new {
+    margin-bottom: 12px;
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    color: white;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.workDescrip {
+    white-space: pre-wrap;
+}
+
+input,textarea {
+    border: 3px solid black;
+    outline: none;
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+input:focus, textarea:focus {
+    background-color: rgba(0, 0, 0);
+    color: white;
+}
+
+::placeholder{
+    font-style: italic;
+}
+
+.del {
+    height: 50px;
+    font-weight: bold;
+    background-color: black;
+    border-radius: 12px;
+    color: white;
+}
+
+.cvPreview {
+    padding: 6px 0 6px 0;
+}
+
+.new:active, .del:active {
+    transform: scale(0.95);
+}
+
+label {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+

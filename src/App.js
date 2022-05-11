@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import MyInfo from "./Components/personal";
+import MySkills from "./Components/skill";
+import MyHistory from "./Components/history";
+import MyExp from "./Components/experience";
+import "./styles/app.css"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isEdit: false
+    }
+  }
+
+  viewChange = (e) => {
+    if (e.target.innerText === "Edit Mode") {
+      this.setState({
+        isEdit: true
+      })
+    } else {
+      this.setState({
+        isEdit: false
+      })
+    }
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <div className="viewChange">
+          <button className="chg" type="button" onClick={this.viewChange}>Edit Mode</button>
+          <button className="chg" type="button" onClick={this.viewChange}>Preview Mode</button>
+        </div>
+        <div className="cv">
+          <MyInfo isEdit={this.state.isEdit} />
+          <MySkills isEdit={this.state.isEdit}/>
+          <MyExp isEdit={this.state.isEdit} />
+          <MyHistory isEdit={this.state.isEdit} />
+        </div>
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
