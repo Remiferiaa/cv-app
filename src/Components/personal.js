@@ -1,64 +1,52 @@
-import React from "react";
+import React, {useState} from "react";
 
+const personalBase = {
+    name: "",
+    email: "",
+    phoneNum: "",
+    address: "",
+}
 
-class MyInfo extends React.Component {
-    constructor(props) {
-        super(props)
+const MyInfo = (props) => {
+    const [values, setValues] = useState(personalBase)
 
-        this.state = {
-            details: {
-                name: "",
-                email: "",
-                phoneNum: "",
-                address: "",
-            },
-        }
-    }
-
-    handleChange = (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target
-        this.setState({
-            details: {
-                ...this.state.details,
-                [name]: value
-            }
+        setValues({
+            ...values,
+            [name]: value,
         })
     }
 
-    infoEdit = () => {
-        const {details} = this.state
+    const infoEdit = () => {
         return (
             <div className="personal" >
                 <label htmlFor="Name">Name: </label>
-                <input value={details.name} onChange={this.handleChange} name="name" id="name" autoComplete="off" placeholder="Name" />
+                <input value={values.name} onChange={handleChange} name="name" id="name" autoComplete="off" placeholder="Name" />
                 <label htmlFor="email">Email: </label>
-                <input value={details.email} onChange={this.handleChange} name="email" id="email" type="email" autoComplete="off" placeholder="Email" />
+                <input value={values.email} onChange={handleChange} name="email" id="email" type="email" autoComplete="off" placeholder="Email" />
                 <label htmlFor="phone">Contact Number: </label>
-                <input value={details.phoneNum} onChange={this.handleChange} name="phoneNum" id="phone" type="tel" autoComplete="off" placeholder="Contact Number" />
+                <input value={values.phoneNum} onChange={handleChange} name="phoneNum" id="phone" type="tel" autoComplete="off" placeholder="Contact Number" />
                 <label htmlFor="address">Address: </label>
-                <input value={details.address} onChange={this.handleChange} name="address" id="address" autoComplete="off" placeholder="Address" />
+                <input value={values.address} onChange={handleChange} name="address" id="address" autoComplete="off" placeholder="Address" />
             </div>
         )
     }
 
-    infoView = () => {
-        const {details} = this.state
+    const infoView = () => {
         return (
             <div className="personal" >
-                <h2>👤 {details.name}</h2>
-                <h2>📧 {details.email}</h2>
-                <h2>☎ {details.phoneNum}</h2>
-                <h2>🏠 {details.address}</h2>
+                <h2>👤 {values.name}</h2>
+                <h2>📧 {values.email}</h2>
+                <h2>☎ {values.phoneNum}</h2>
+                <h2>🏠 {values.address}</h2>
             </div>
         )
     }
 
-    render() {
-        const isEdit = this.props.isEdit
-        return (
-            (isEdit) ? this.infoEdit() : this.infoView()
-        )
-    }
+    return (
+        (props.isEdit) ? infoEdit() : infoView()
+    )
 }
 
 export default MyInfo

@@ -1,76 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import uniqid from "uniqid"
 
-class MyExp extends React.Component {
-    constructor(props) {
-        super(props)
+const baseExp = {
+    info: "",
+    fromDate: "",
+    toDate: "",
+    descrip: "",
+    id: uniqid()
+}
 
-        this.state = {
-            exp: {
-                info: "",
-                fromDate: "",
-                toDate: "",
-                descrip: "",
-                id: uniqid()
-            },
-            expList: []
-        }
-    }
+const MyExp = (props) => {
 
-    handleChange = (e, index) => {
+    const [values, setValues] = useState(baseExp)
+    const [expList, setExp] = useState([])
+
+    const handleChange = (e, index) => {
         const { name, value } = e.target
-        let expList = [...this.state.expList]
-        let item = { ...expList[index] }
-        item[name] = value
-        expList[index] = item
-        this.setState({ expList })
-    }
-
-    expRender = () => {
-        this.setState({
-            expList: this.state.expList.concat(this.state.exp),
-            exp: {
-                info: "",
-                fromDate: "",
-                toDate: "",
-                descrip: "",
-                id: uniqid()
-            },
+        const newList = [...expList]
+        newList[index][name] = value
+        setExp(newList)
+    }       
+    const expRender = () => {
+        setExp(oldArray => [...oldArray, values])
+        setValues({
+            ...values,
+            id: uniqid()
         })
     }
 
-    expRemove = (index) => {
-        let expList = [...this.state.expList]
-        expList.splice(index, 1)
-        this.setState({ expList })
+    const expRemove = (id) => {
+        setExp(expList.filter(exp => exp.id !== id))
     }
 
-    expEdit = () => {
-        const { expList } = this.state
+    const expEdit = () => {
         return (
             <div className="workExp">
                 <h1 >Work Experience</h1>
-                <button className="new" onClick={this.expRender}>+</button>
+                <button className="new" onClick={expRender}>+</button>
                 {expList.map((exp, index) => {
-                    return (
-                        <div key={exp.id} className="newExp"  >
-                            <label htmlFor="info">Company Name: </label>
-                            <input value={exp.info} onChange={e => this.handleChange(e, index)} name="info" id="info" autoComplete="off" placeholder="Company Name" />
-                            <label htmlFor="fromDate">From: </label>
-                            <input value={exp.fromDate} onChange={e => this.handleChange(e, index)} name="fromDate" id="fromDate" autoComplete="off" placeholder="From" />
-                            <label htmlFor="toDate">To: </label>
-                            <input value={exp.toDate} onChange={e => this.handleChange(e, index)} name="toDate" id="toDate" autoComplete="off" placeholder="To" />
-                            <label htmlFor="descrip">Job Description: </label>
-                            <textarea value={exp.descrip} onChange={e => this.handleChange(e, index)} name="descrip" id="descrip" rows={4} cols={50} placeholder="Job Descrption" />
-                            <button type="button" className="del" onClick={e => this.expRemove(e, index)}>Delete</button>
-                        </div>
-                    )
+                    return <div key={exp.id} className="newExp">
+                        <label htmlFor="info">Company Name: </label>
+                        <input value={exp.info} onChange={(e) => handleChange(e, index)} name="info" id="info" autoComplete="off" placeholder="Company Name" />
+                        <label htmlFor="fromDate">From: </label>
+                        <input value={exp.fromDate} onChange={(e) => handleChange(e, index)} name="fromDate" id="fromDate" autoComplete="off" placeholder="From" />
+                        <label htmlFor="toDate">To: </label>
+                        <input value={exp.toDate} onChange={(e) => handleChange(e, index)} name="toDate" id="toDate" autoComplete="off" placeholder="To" />
+                        <label htmlFor="descrip">Job Description: </label>
+                        <textarea value={exp.descrip} onChange={(e) => handleChange(e, index)} name="descrip" id="descrip" rows={4} cols={50} placeholder="Job Descrption" />
+                        <button type="button" className="del" onClick={() => expRemove(exp.id)}>Delete</button>
+                    </div>
                 })}
             </div>)
     }
-
-    expView = () => {
-        const { expList } = this.state
+    const expView = () => {
         return (
             <div className="workExp">
                 <h1>Work Experience</h1>
@@ -85,13 +67,12 @@ class MyExp extends React.Component {
                 })}
             </div>)
     }
-
-    render() {
-        const isEdit = this.props.isEdit
-        return (
-            (isEdit) ? this.expEdit() : this.expView()
-        )
-    }
+    return (
+        (props.isEdit) ? expEdit() : expView()
+    )
 }
 
 export default MyExp
+
+
+

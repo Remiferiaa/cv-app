@@ -1,56 +1,45 @@
-import React from "react";
+import React, {useState} from "react";
 import uniqid from "uniqid"
 
-class MySkills extends React.Component {
-    constructor(props) {
-        super(props)
+const baseSkill = {
+    text: "",
+    id: uniqid()
+}
 
-        this.state = {
-            skill: {
-                text: "",
-                id: uniqid()
-            },
-            skillList: []
-        }
-    }
+const MySkills = (props) => {
+    const [values, setValues] = useState(baseSkill)
+    const [skillList, setSkill] = useState([])
 
-    handleChange = (e, index) => {
+    const handleChange = (e, index) => {
         const { name, value } = e.target
-        let skillList = [...this.state.skillList]
-        let item = { ...skillList[index] }
-        item[name] = value
-        skillList[index] = item
-        this.setState({ skillList }) 
+        const newList = [...skillList]
+        newList[index][name] = value
+        setSkill(newList)
     }
 
-    skillRender = () => {
-        this.setState({
-            skillList: this.state.skillList.concat(this.state.skill),
-            skill: {
-                text: "",
-                id: uniqid()
-            }
+    const skillRender = () => {
+        setSkill(oldArray => [...oldArray, values])
+        setValues({
+            text: "",
+            id: uniqid()
         })
     }
 
-    skillRemove = (index) => {
-        let skillList = [...this.state.skillList]
-        skillList.splice(index, 1)
-        this.setState({ skillList })
+    const skillRemove = (id) => {
+        setSkill(skillList.filter(skill => skill.id !== id))
     }
 
-    skillEdit = () => {
-        const { skillList } = this.state
+    const skillEdit = () => {
         return (
             <div className="skills">
                 <h1>Skills</h1>
-                <button className="new" onClick={this.skillRender}>+</button>
+                <button className="new" onClick={skillRender}>+</button>
                 {skillList.map((skill, index) => {
                     return (
                         <div key={skill.id} className="talent" >
                             <label htmlFor="text">Skill Name: </label>
-                            <input value={skill.text} onChange={e => this.handleChange(e, index)} name="text" id="text" autoComplete="off" placeholder="Skills" />
-                            <button className="delSkill" onClick={e => this.skillRemove(e, index)}>❌</button>
+                            <input value={skill.text} onChange={(e) => handleChange(e, index)} name="text" id="text" autoComplete="off" placeholder="Skills" />
+                            <button className="delSkill" onClick={() => skillRemove(skill.id)}>❌</button>
                         </div>
                     )
                 })}
@@ -58,8 +47,7 @@ class MySkills extends React.Component {
         )
     }
 
-    skillView = () => {
-        const { skillList } = this.state
+    const skillView = () => {
         return (
             <div className="skills">
                 <h1>Skills</h1>
@@ -73,15 +61,10 @@ class MySkills extends React.Component {
             </div>
         )
     }
-
-
-
-    render() {
-        const isEdit = this.props.isEdit
-        return (
-            (isEdit) ? this.skillEdit() : this.skillView()
-        )
-    }
+    
+    return (
+        (props.isEdit) ? skillEdit() : skillView()
+    )
 }
 
 export default MySkills
